@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="InformationComputerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Computer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ComputerName" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsConfirmChanged" Type="bit" Nullable="false" />
+          <Property Name="IsOldVersionOS" Type="bit" />
+          <Property Name="IsOldVersionAntivirus" Type="bit" />
+        </EntityType>
+        <EntityType Name="Information">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImportDate" Type="datetime" />
+          <Property Name="ComputerName" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="InformationDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InformationId" Type="int" />
+          <Property Name="ComputerName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Information" Type="nvarchar" MaxLength="250" />
+          <Property Name="Group" Type="nvarchar" MaxLength="250" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="SubName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Key" Type="nvarchar" MaxLength="250" />
+          <Property Name="Value" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="CurrentVersion" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="UndefinedSoftware">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InformationId" Type="int" />
+          <Property Name="ComputerName" Type="nvarchar" MaxLength="250" />
+          <Property Name="UndefinedSoftware" Type="nvarchar" MaxLength="250" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="CreateDate" Type="nvarchar" MaxLength="250" />
+          <Property Name="Size" Type="nvarchar" MaxLength="250" />
+          <Property Name="Location" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_InformationDetails_Information">
+          <End Role="Information" Type="Self.Information" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="InformationDetails" Type="Self.InformationDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Information">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InformationDetails">
+              <PropertyRef Name="InformationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UndefinedSoftware_Information">
+          <End Role="Information" Type="Self.Information" Multiplicity="0..1" />
+          <End Role="UndefinedSoftware" Type="Self.UndefinedSoftware" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Information">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UndefinedSoftware">
+              <PropertyRef Name="InformationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InformationComputerModelStoreContainer">
+          <EntitySet Name="Computer" EntityType="Self.Computer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Information" EntityType="Self.Information" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InformationDetails" EntityType="Self.InformationDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UndefinedSoftware" EntityType="Self.UndefinedSoftware" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_InformationDetails_Information" Association="Self.FK_InformationDetails_Information">
+            <End Role="Information" EntitySet="Information" />
+            <End Role="InformationDetails" EntitySet="InformationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UndefinedSoftware_Information" Association="Self.FK_UndefinedSoftware_Information">
+            <End Role="Information" EntitySet="Information" />
+            <End Role="UndefinedSoftware" EntitySet="UndefinedSoftware" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="InformationComputerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="InformationComputerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Computers" EntityType="InformationComputerModel.Computer" />
+          <EntitySet Name="Information" EntityType="InformationComputerModel.Information" />
+          <EntitySet Name="InformationDetails" EntityType="InformationComputerModel.InformationDetail" />
+          <EntitySet Name="Products" EntityType="InformationComputerModel.Product" />
+          <EntitySet Name="UndefinedSoftwares" EntityType="InformationComputerModel.UndefinedSoftware" />
+          <AssociationSet Name="FK_InformationDetails_Information" Association="InformationComputerModel.FK_InformationDetails_Information">
+            <End Role="Information" EntitySet="Information" />
+            <End Role="InformationDetail" EntitySet="InformationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UndefinedSoftware_Information" Association="InformationComputerModel.FK_UndefinedSoftware_Information">
+            <End Role="Information" EntitySet="Information" />
+            <End Role="UndefinedSoftware" EntitySet="UndefinedSoftwares" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Computer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ComputerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsConfirmChanged" Type="Boolean" Nullable="false" />
+          <Property Name="IsOldVersionOS" Type="Boolean" />
+          <Property Name="IsOldVersionAntivirus" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Information">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImportDate" Type="DateTime" Precision="3" />
+          <Property Name="ComputerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="InformationDetails" Relationship="InformationComputerModel.FK_InformationDetails_Information" FromRole="Information" ToRole="InformationDetail" />
+          <NavigationProperty Name="UndefinedSoftwares" Relationship="InformationComputerModel.FK_UndefinedSoftware_Information" FromRole="Information" ToRole="UndefinedSoftware" />
+        </EntityType>
+        <EntityType Name="InformationDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InformationId" Type="Int32" />
+          <Property Name="ComputerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Information" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Group" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SubName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Key" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Information1" Relationship="InformationComputerModel.FK_InformationDetails_Information" FromRole="InformationDetail" ToRole="Information" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CurrentVersion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UndefinedSoftware">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InformationId" Type="Int32" />
+          <Property Name="ComputerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UndefinedSoftware1" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Size" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Information" Relationship="InformationComputerModel.FK_UndefinedSoftware_Information" FromRole="UndefinedSoftware" ToRole="Information" />
+        </EntityType>
+        <Association Name="FK_InformationDetails_Information">
+          <End Type="InformationComputerModel.Information" Role="Information" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="InformationComputerModel.InformationDetail" Role="InformationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Information">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InformationDetail">
+              <PropertyRef Name="InformationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UndefinedSoftware_Information">
+          <End Type="InformationComputerModel.Information" Role="Information" Multiplicity="0..1" />
+          <End Type="InformationComputerModel.UndefinedSoftware" Role="UndefinedSoftware" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Information">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UndefinedSoftware">
+              <PropertyRef Name="InformationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="InformationComputerModelStoreContainer" CdmEntityContainer="InformationComputerEntities">
+          <EntitySetMapping Name="Computers">
+            <EntityTypeMapping TypeName="InformationComputerModel.Computer">
+              <MappingFragment StoreEntitySet="Computer">
+                <ScalarProperty Name="IsOldVersionAntivirus" ColumnName="IsOldVersionAntivirus" />
+                <ScalarProperty Name="IsOldVersionOS" ColumnName="IsOldVersionOS" />
+                <ScalarProperty Name="IsConfirmChanged" ColumnName="IsConfirmChanged" />
+                <ScalarProperty Name="ComputerName" ColumnName="ComputerName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Information">
+            <EntityTypeMapping TypeName="InformationComputerModel.Information">
+              <MappingFragment StoreEntitySet="Information">
+                <ScalarProperty Name="ComputerName" ColumnName="ComputerName" />
+                <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InformationDetails">
+            <EntityTypeMapping TypeName="InformationComputerModel.InformationDetail">
+              <MappingFragment StoreEntitySet="InformationDetails">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="SubName" ColumnName="SubName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Information" ColumnName="Information" />
+                <ScalarProperty Name="ComputerName" ColumnName="ComputerName" />
+                <ScalarProperty Name="InformationId" ColumnName="InformationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="InformationComputerModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="CurrentVersion" ColumnName="CurrentVersion" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UndefinedSoftwares">
+            <EntityTypeMapping TypeName="InformationComputerModel.UndefinedSoftware">
+              <MappingFragment StoreEntitySet="UndefinedSoftware">
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UndefinedSoftware1" ColumnName="UndefinedSoftware" />
+                <ScalarProperty Name="ComputerName" ColumnName="ComputerName" />
+                <ScalarProperty Name="InformationId" ColumnName="InformationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
